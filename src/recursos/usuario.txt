@@ -1,0 +1,52 @@
+============================================================
+MANUAL DE USUARIO  PROCESADOR DE AUTÓMATAS FINITOS
+Versión 1.0.0
+============================================================
+
+1. INTRODUCCIÓN Y OBJETIVO
+La aplicación está diseñada para la definición, visualización gráfica y simulación paso a paso de Autómatas Finitos Deterministas (AFD) a partir de una estructura de texto simple.
+
+2. ÁREA DE TRABAJO
+El área de trabajo principal se divide en tres secciones
+   a) Entrada de Texto Definición del autómata y cadenas a analizar.
+   b) Visualización Tablas de componentes (Símbolos, Transiciones) y el grafo generado (Graphviz).
+   c) Simulación Controles de 'Paso Siguiente', 'Simular Todo' y las tablas de resultados de las cadenas.
+
+3. DEFINICIÓN DEL AUTÓMATA (Sintaxis de Entrada)
+La aplicación exige un formato estricto. Cada sección debe ser declarada en una línea nueva con el formato 'Etiqueta'
+
+   - Símbolos [Símbolo1, Símbolo2, ...]
+     Ej Simbolos 0,1,a,b
+
+   - Estados [Estado1, Estado2, ...]
+     Ej Estados Q0,Q1,Q2,Qreject
+
+   - Estado Inicial [Estado]
+     Ej Estado Inicial Q0
+
+   - Estados de aceptación [Estado1, Estado2, ...]
+     Ej Estados de aceptación Q0,Q2
+
+   - Transiciones (FORMATO SIMPLIFICADO CRÍTICO)
+     Cada línea define una transición que aplica a TODOS los símbolos.
+     Formato EstadoOrigen,EstadoDestino
+     Ej Q0,Q1  -- Ambas T(Q0,0) = Q1 y T(Q0,1) = Q1 serán definidas.
+
+   - Cadenas a analizar [Cadena1, Cadena2, ...]
+     Ej Cadenas a analizar 1,0,0,1,1
+
+4. OPERACIONES DEL MENÚ 'ARCHIVO'
+   - Abrir Carga la definición de un autómata desde un archivo TXT externo (requiere el formato exacto).
+   - Nuevo Limpia el área de texto, las tablas y la simulación.
+   - Guardar (Funcionalidad no implementada en esta versión)
+
+5. SIMULACIÓN DE CADENAS
+   El control de la simulación se realiza sobre las cadenas listadas en la tabla de 'Cadenas'.
+   
+   - Paso Siguiente Ejecuta la transición para el siguiente símbolo de la cadena seleccionada. Actualiza el 'Estado Actual' y resalta el nodo correspondiente en el grafo.
+   - Simular Todo Ejecuta la simulación completa de la cadena seleccionada, llenando las columnas 'Resultado' y 'Estado Final'.
+   - Reiniciar Simulación Vuelve la cadena seleccionada a su estado inicial para una nueva simulación paso a paso.
+
+------------------------------------------------------------
+FIN DEL MANUAL DE USUARIO
+============================================================

@@ -1,0 +1,49 @@
+============================================================
+MANUAL TÉCNICO | SISTEMA DE AUTÓMATAS FINITOS
+Fecha: [FECHA DEL PROYECTO]
+Autor: [TU NOMBRE / ID]
+============================================================
+
+1. ARQUITECTURA DEL SOFTWARE: MODELO-VISTA-CONTROLADOR (MVC)
+
+   - MODELO (Paquete 'modelo'):
+     - ModeloTexto: Responsable del parsing de la entrada. Divide el texto en componentes y crea una instancia de ModeloAutomata.
+       * CRÍTICO: Implementa la adaptación para el formato de transición simplificado (Qx,Qy) asumiendo todos los símbolos.
+     - ModeloAutomata: Contiene la lógica pura del autómata: conjuntos de Estados, Símbolos y la Matriz de Transiciones (Map<String, String> o similar). Provee el método generarDot(estadoActivo).
+
+   - VISTA (Paquete 'vistas'):
+     - Vista: Clase principal JFrame que aloja todos los componentes de la GUI (JTables, JLabels, JButtons).
+     - VistaManual: Clase JDialog utilizada para mostrar el contenido de este manual y el manual de usuario, leyendo recursos internos.
+
+   - CONTROLADOR (Paquete 'controlador'):
+     - ControladorTexto: Gestiona la carga de archivos, el parsing de la entrada de texto y la generación inicial del grafo. Responsable de la comunicación con Graphviz.
+     - ControladorSimulacion: Maneja la interacción con las tablas, la lógica de simulación paso a paso y la actualización del estado (nodo resaltado) y los resultados.
+     - ControladorAyuda: Gestiona la apertura de los diálogos de manuales, cargando recursos internos del JAR.
+
+2. GESTIÓN DE RECURSOS Y DEPENDENCIAS
+
+   - Recursos Internos: Todos los archivos de ejemplo (.txt) y los manuales (.txt) se acceden mediante:
+     'getClass().getResourceAsStream("/recursos/...")'
+     Esto asegura la portabilidad de los archivos dentro del JAR.
+
+   - Generación de Gráficos (Graphviz):
+     - Dependencia Externa: Requiere la instalación de 'dot.exe' (Graphviz) en el sistema operativo.
+     - Ejecución: Se utiliza 'ProcessBuilder' para ejecutar el comando:
+       dot.exe -Tpng -o [temp_output.png] [temp_input.dot]
+     - El archivo DOT es generado dinámicamente por ModeloAutomata.
+
+3. SINTAXIS DE TRANSICIÓN IMPLÍCITA (Riesgos Técnicos)
+   La implementación del formato simplificado de Transiciones: (Qx,Qy) obliga a un acoplamiento entre el parser y la matriz:
+   - Riesgo: La matriz de transiciones se llena de manera redundante (N x |Sigma| entradas), pero garantiza la completitud del AFD y la simplicidad de la entrada para el usuario.
+   - Manejo de Errores: El parser debe incluir manejo de excepciones para líneas con más o menos de 2 estados en la sección 'Transiciones:'.
+
+4. FLUJO CRÍTICO DE LA SIMULACIÓN
+   1. Usuario hace clic en 'Paso Siguiente'.
+   2. ControladorSimulacion obtiene el siguiente símbolo.
+   3. Llama a ModeloAutomata.obtenerSiguienteEstado(estadoActual, simbolo).
+   4. Llama a ControladorTexto.generarImagenAutomata(automata, nuevoEstado).
+   5. El grafo se regenera con el nuevo estado resaltado.
+
+------------------------------------------------------------
+FIN DEL MANUAL TÉCNICO
+============================================================

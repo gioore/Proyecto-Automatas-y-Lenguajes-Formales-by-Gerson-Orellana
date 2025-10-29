@@ -1,0 +1,13 @@
+Simbolos: 0,1
+Estados: S1,S2,S3,S4
+Estado inicial: S1
+Estados de aceptación: S4
+Transiciones:
+S1,S2
+S2,S3
+S3,S4
+S4,S1
+Cadenas a analizar:
+1,1,1
+0,0,0,0
+1,0,1,0,1,0
